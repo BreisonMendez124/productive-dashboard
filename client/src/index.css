@@ -1,0 +1,129 @@
+/**
+ * index.css
+ * 
+ * Estilos globales y resets del proyecto.
+ * 
+ * Contenido:
+ * 1. Variables CSS globales (:root)
+ * 2. Resets normalizadores (body, a, button)
+ * 3. Configuración de fuentes e interpolación
+ * 4. Media queries (color scheme)
+ * 5. Altura 100vh (para stage 16:9)
+ * 
+ * Nota: Los estilos específicos del layout están en App.css
+ * Este archivo es complementario, provee resets globales únicamente.
+ */
+
+/**
+ * :root — Variables CSS globales y configuración base
+ * 
+ * font-family: System fonts (máxima compatibilidad)
+ * line-height: 1.5 (legibilidad)
+ * color-scheme: Soporta light y dark (aunque usamos light explícitamente)
+ * font-synthesis: none → No generar bold/italic si no existen
+ * text-rendering: optimizeLegibility → Hinting para legibilidad TV
+ * -webkit-font-smoothing: Suavizado de fuentes en Mac/iOS
+ * -moz-osx-font-smoothing: Suavizado en Firefox macOS
+ */
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #ffffff;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/**
+ * Enlaces — Estilos por defecto (aunque no se usan en dashboard)
+ * Color principal: azul (#646cff)
+ * Hover: azul más oscuro (#535bf2)
+ */
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+
+a:hover {
+  color: #535bf2;
+}
+
+/**
+ * Botones — Estilo base (aunque no se usan en dashboard)
+ * Background: amarillo (#ffd000) para consistencia
+ * Padding, border-radius, transition estándar
+ */
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #ffd000;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+button:hover {
+  border-color: #646cff;
+}
+
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+/**
+ * Media Query — Light color scheme
+ * 
+ * En navegadores con preferencia de light mode:
+ * - Texto oscuro (#213547)
+ * - Fondo blanco (#ffffff)
+ * 
+ * Nota: El dashboard usa siempre luz explícita (ver App.css :root)
+ */
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
+
+/**
+ * HTML, Body, #root — Altura 100% para ocupar viewport
+ * 
+ * CRÍTICO para que el stage (16:9) tenga altura correcta.
+ * Sin esto, el layout no se expande correctamente.
+ * 
+ * Propiedades:
+ * - height: 100% (de su padre)
+ * - width: 100%
+ * - margin: 0, padding: 0 (resets)
+ */
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/**
+ * Body — Fondo blanco explícito
+ */
+body {
+  background: #ffffff;
+}

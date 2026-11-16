@@ -1,0 +1,23 @@
+# Dependencias
+node_modules/
+**/node_modules/
+
+# Variables de entorno 
+.env
+**/.env
+
+# Build del cliente
+client/dist/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Archivos de prueba / temporales
+test-*.mjs
+test-*.js
+*.tmp

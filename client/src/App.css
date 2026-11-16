@@ -1,0 +1,560 @@
+/**
+ * App.css — Estilos del WMS Dashboard
+ * 
+ * Optimización para TV :
+ * - Font-size base: 18px 
+ * - Espaciado: 12-16px entre elementos
+ * - Bordes: 2px sólido, sombras neumáticas (offset 4px)
+ * - Paleta: Amarillo (FBC41F), Negro, Blanco
+ * 
+ * Estructura:
+ * - Variables CSS globales (:root)
+ * - Reset y base
+ * - Layout principal (.stage, .carousel, .slide)
+ * - Header (.hdr, .logoBox, .pill)
+ * - Contenido (.slideGrid, .threeCols, .colStack)
+ * - Componentes (tabla, KPI, gráficas)
+ * - Media queries (responsive)
+ */
+
+/* ────────────────────────────────────────────────────────────────────────────
+   VARIABLES CSS
+   ──────────────────────────────────────────────────────────────────────────── */
+
+:root {
+  --yellow: rgba(252, 191, 0, 1);
+  --black: #000;
+  --gray: rgba(211, 211, 211, 1);
+  --bg: #fff;
+}
+
+/* ────────────────────────────────────────────────────────────────────────────
+   RESET Y BASE
+   ──────────────────────────────────────────────────────────────────────────── */
+
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* CRÍTICO para TV: aumentar font-size base */
+html {
+  font-size: 18px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background: var(--bg);
+  font-family: system-ui, -apple-system, sans-serif;
+  line-height: 1.5;
+  color: var(--black);
+}
+
+/* ────────────────────────────────────────────────────────────────────────────
+   CONTENEDOR PRINCIPAL (.page, .stage)
+   ──────────────────────────────────────────────────────────────────────────── */
+
+.page {
+  min-height: 100vh;
+  background: var(--bg);
+  padding: 12px;
+  display: grid;
+  place-items: center;
+}
+
+.stage {
+  width: min(100vw, calc(100vh * 16 / 9));
+  aspect-ratio: 16 / 9;
+  background: var(--bg);
+  color: var(--black);
+  border: 3px solid var(--black);
+  border-radius: 18px;
+  box-shadow: 0 6px 0 var(--black);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-height: 0;
+}
+
+.loading {
+  opacity: 0.7;
+  padding: 8px;
+  text-align: center;
+}
+
+/* ────────────────────────────────────────────────────────────────────────────
+   HEADER
+   ──────────────────────────────────────────────────────────────────────────── */
+
+.hdr {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+  margin-bottom: 8px;
+  min-height: 0;
+}
+
+.hdrLeft {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.logoBox {
+  width: 200px;
+  height: 64px;
+  border: 2px solid var(--black);
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: var(--yellow);
+  box-shadow: 0 3px 0 var(--black);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.logoImg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  padding: 0;
+}
+
+.hdrRight {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.h1 {
+  font-size: 22px;
+  font-weight: 900;
+  margin: 0;
+}
+
+.h2 {
+  font-size: 12px;
+  opacity: 0.85;
+  margin: 4px 0 0 0;
+}
+
+.err {
+  color: #c30000;
+  margin-left: 8px;
+}
+
+.pill {
+  padding: 8px 10px;
+  border-radius: 999px;
+  background: var(--yellow);
+  border: 1px solid var(--black);
+  font-size: 12px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+/* ────────────────────────────────────────────────────────────────────────────
+   CARRUSEL Y SLIDES
+   ──────────────────────────────────────────────────────────────────────────── */
+
+.carousel {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.slide {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  overflow: hidden;
+}
+
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding-bottom: 2px;
+}
+
+.dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(0, 0, 0, 0.35);
+}
+
+.dot.active {
+  background: rgba(251, 196, 31, 0.9);
+  border-color: rgba(0, 0, 0, 0.9);
+}
+
+/* ────────────────────────────────────────────────────────────────────────────
+   ESTRUCTURA INTERNA DE SLIDES
+   ──────────────────────────────────────────────────────────────────────────── */
+
+.slideGrid {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+  min-height: 0;
+}
+
+.viewTitle {
+  font-size: 24px;
+  font-weight: 900;
+  margin: 0;
+  padding: 0 2px;
+}
+
+.threeCols {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1.6fr 1fr;
+  gap: 10px;
+  min-height: 0;
+  align-items: stretch;
+}
+
+.colStack {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 0;
+}
+
+.colBody {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ────────────────────────────────────────────────────────────────────────────
+   PANELES (TARJETAS)
+   ──────────────────────────────────────────────────────────────────────────── */
+
+.panel {
+  background: var(--bg);
+  border: 2px solid var(--black);
+  border-radius: 14px;
+  box-shadow: 0 4px 0 var(--black);
+  padding: 10px;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.panelTitle {
+  font-size: 16px;
+  font-weight: 900;
+  margin-bottom: 8px;
+  margin-top: 0;
+  line-height: 1.2;
+}
+
+/* ────────────────────────────────────────────────────────────────────────────
+   KPI Y TARJETAS DE RESUMEN
+   ──────────────────────────────────────────────────────────────────────────── */
+
+.kpiRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.kpiCard {
+  background: var(--yellow);
+  border: 2px solid var(--black);
+  border-radius: 14px;
+  box-shadow: 0 4px 0 var(--black);
+  padding: 10px;
+  min-height: 76px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.kpiCard:nth-child(2) {
+  background: var(--black);
+  color: var(--yellow);
+}
+
+.kpiTitle {
+  font-size: 14px;
+  font-weight: 900;
+  margin: 0;
+}
+
+.kpiValue {
+  font-size: 36px;
+  font-weight: 900;
+  line-height: 1;
+  margin: 4px 0;
+}
+
+.kpiSub {
+  font-size: 11px;
+  opacity: 0.85;
+  margin: 0;
+}
+
+/* ────────────────────────────────────────────────────────────────────────────
+   TABLAS
+   ──────────────────────────────────────────────────────────────────────────── */
+
+.tableWrap {
+  width: 100%;
+  overflow: auto;
+  max-height: 100%;
+  border-radius: 12px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid var(--black);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--yellow);
+  border-bottom: 2px solid var(--black);
+  padding: 10px;
+  text-align: left;
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.table tbody td {
+  padding: 10px;
+  border-bottom: 1px solid var(--gray);
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+/* ────────────────────────────────────────────────────────────────────────────
+   GRÁFICAS (TORTA/DONUT)
+   ──────────────────────────────────────────────────────────────────────────── */
+
+.pieBlock {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 0;
+  min-width: 0;
+}
+
+.pieContainer {
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  width: 100%;
+  display: flex;
+}
+
+.pieLegend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+  padding-top: 8px;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.legendDot {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.legendText {
+  color: var(--black);
+}
+
+/* ────────────────────────────────────────────────────────────────────────────
+   ESTADO Y ANTIGÜEDAD
+   ──────────────────────────────────────────────────────────────────────────── */
+
+.estadoGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+}
+
+.colTitle {
+  font-size: 13px;
+  font-weight: 900;
+  padding: 8px 10px;
+  border: 2px solid var(--black);
+  border-radius: 14px;
+  box-shadow: 0 4px 0 var(--black);
+  margin: 0;
+}
+
+.colTitle.yellow {
+  background: var(--yellow);
+  color: var(--black);
+}
+
+.colTitle.black {
+  background: var(--black);
+  color: var(--yellow);
+}
+
+/* ────────────────────────────────────────────────────────────────────────────
+   BARRAS DE PROGRESO
+   ──────────────────────────────────────────────────────────────────────────── */
+
+.progressRow {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 8px;
+  border: 1px dashed var(--gray);
+  border-radius: 12px;
+}
+
+.progressLeft {
+  min-width: 200px;
+}
+
+.userName {
+  font-weight: 900;
+  font-size: 14px;
+  margin: 0;
+}
+
+.userTime {
+  font-size: 12px;
+  margin: 4px 0 0 0;
+}
+
+.progressBarWrap {
+  flex: 1;
+  height: 16px;
+  background: var(--gray);
+  border-radius: 999px;
+  border: 1px solid var(--black);
+  overflow: hidden;
+}
+
+.progressBarFill {
+  height: 100%;
+  border-right: 1px solid var(--black);
+  transition: width 0.35s ease;
+}
+
+/* ────────────────────────────────────────────────────────────────────────────
+   LISTAS DE USUARIOS
+   ──────────────────────────────────────────────────────────────────────────── */
+
+.userList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow: auto;
+  max-height: calc(100% - 20px);
+  padding-right: 2px;
+}
+
+.muted {
+  opacity: 0.6;
+}
+
+.mutedPad {
+  opacity: 0.7;
+  padding: 8px;
+  text-align: center;
+}
+
+/* ────────────────────────────────────────────────────────────────────────────
+   GRÁFICAS DE RECHARTS
+   ──────────────────────────────────────────────────────────────────────────── */
+
+.charts2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  min-height: 0;
+}
+
+.chartBox {
+  height: 240px;
+  width: 100%;
+}
+
+.chartBoxTall {
+  height: 250px;
+  width: 100%;
+}
+
+/* ────────────────────────────────────────────────────────────────────────────
+   RESPONSIVE
+   ──────────────────────────────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+
+  .stage {
+    padding: 10px;
+    border-radius: 12px;
+  }
+
+  .threeCols {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .hdr {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .logoBox {
+    width: 160px;
+    height: 52px;
+  }
+}

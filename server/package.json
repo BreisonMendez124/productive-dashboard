@@ -1,0 +1,20 @@
+{
+  "name": "wms-dashboard-server",
+  "version": "1.0.0",
+  "description": "API backend para el tablero de productividad WMS — Diarios de Selección",
+  "type": "module",
+  "main": "src/server.mjs",
+  "scripts": {
+    "start": "node src/server.mjs",
+    "dev":   "node --watch src/server.mjs"
+  },
+  "keywords": ["wms", "dashboard", "gecolsa"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors":    "^2.8.5",
+    "dotenv":  "^17.2.3",
+    "express": "^5.2.1",
+    "mssql":   "^12.2.0"
+  }
+}
